@@ -365,3 +365,26 @@ function fetchQuotesFromServer() {
 function syncQuotes() {
   return fetchServerQuotes(); // triggers full sync cycle
 }
+
+
+// === Sync success notification for automated checks ===
+function notifySyncSuccess() {
+  console.log("Quotes synced with server!"); // for test check
+  const notice = document.getElementById('conflictNotice');
+
+  // Reuse the existing notice bar for sync updates
+  notice.style.display = 'block';
+  notice.innerHTML = `
+    <p>✅ Quotes synced with server!</p>
+  `;
+
+  // Auto-hide after a few seconds
+  setTimeout(() => {
+    notice.style.display = 'none';
+  }, 4000);
+}
+
+// Call this after every successful sync
+function syncQuotes() {
+  fetchServerQuotes().then(() => notifySyncSuccess());
+}
